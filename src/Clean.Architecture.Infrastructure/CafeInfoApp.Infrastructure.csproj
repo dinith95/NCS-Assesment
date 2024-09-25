@@ -12,7 +12,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\Clean.Architecture.Core\Clean.Architecture.Core.csproj" />
-    <ProjectReference Include="..\Clean.Architecture.UseCases\Clean.Architecture.UseCases.csproj" />
+    <ProjectReference Include="..\Clean.Architecture.Core\CafeInfoApp.Core.csproj" />
+    <ProjectReference Include="..\Clean.Architecture.UseCases\CafeInfoApp.UseCases.csproj" />
   </ItemGroup>
 </Project>
