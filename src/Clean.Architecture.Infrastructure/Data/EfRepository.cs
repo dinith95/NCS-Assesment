@@ -1,17 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CafeInfoApp.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clean.Architecture.Infrastructure.Data;
-
-internal interface IRepository<T> where T : class
-{
-}
 
 public class EfRepository<T>(AppDbContext dbContext) :
   RepositoryBase<T>(dbContext), IRepository<T> where T : class
 {
 }
-
-
 
 public abstract class RepositoryBase<T> : IRepository<T> where T : class
 {
@@ -31,7 +26,6 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class
         return entity;
     }
 
-    /// <inheritdoc/>
     public virtual async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {
         _dbContext.Set<T>().AddRange(entities);
@@ -41,7 +35,6 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class
         return entities;
     }
 
-    /// <inheritdoc/>
     public virtual async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
         _dbContext.Set<T>().Update(entity);
@@ -49,7 +42,6 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class
         await SaveChangesAsync(cancellationToken);
     }
 
-    /// <inheritdoc/>
     public virtual async Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {
         _dbContext.Set<T>().UpdateRange(entities);
@@ -57,7 +49,6 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class
         await SaveChangesAsync(cancellationToken);
     }
 
-    /// <inheritdoc/>
     public virtual async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
     {
         _dbContext.Set<T>().Remove(entity);
@@ -65,7 +56,6 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class
         await SaveChangesAsync(cancellationToken);
     }
 
-    /// <inheritdoc/>
     public virtual async Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {
         _dbContext.Set<T>().RemoveRange(entities);
@@ -73,101 +63,26 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class
         await SaveChangesAsync(cancellationToken);
     }
 
-    /// <inheritdoc/>
-    //public virtual async Task DeleteRangeAsync(ISpecification<T> specification, CancellationToken cancellationToken = default)
-    //{
-    //  var query = ApplySpecification(specification);
-    //  _dbContext.Set<T>().RemoveRange(query);
+    public virtual async Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default) where TId : notnull
+    {
+        return await _dbContext.Set<T>().FindAsync(new object[] { id }, cancellationToken: cancellationToken);
+    }
 
-    //  await SaveChangesAsync(cancellationToken);
-    //}
-
-    /// <inheritdoc/>
-    public virtual async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    protected virtual async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    ///// <inheritdoc/>
-    //public virtual async Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default) where TId : notnull
-    //{
-    //  return await _dbContext.Set<T>().FindAsync(new object[] { id }, cancellationToken: cancellationToken);
-    //}
-
-    //public virtual async Task<T?> FirstOrDefaultAsync(ISpecification<T> specification, CancellationToken cancellationToken = default)
-    //{
-    //  return await ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual async Task<TResult?> FirstOrDefaultAsync<TResult>(ISpecification<T, TResult> specification, CancellationToken cancellationToken = default)
-    //{
-    //  return await ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual async Task<T?> SingleOrDefaultAsync(ISingleResultSpecification<T> specification, CancellationToken cancellationToken = default)
-    //{
-    //  return await ApplySpecification(specification).SingleOrDefaultAsync(cancellationToken);
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual async Task<TResult?> SingleOrDefaultAsync<TResult>(ISingleResultSpecification<T, TResult> specification, CancellationToken cancellationToken = default)
-    //{
-    //  return await ApplySpecification(specification).SingleOrDefaultAsync(cancellationToken);
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual async Task<List<T>> ListAsync(CancellationToken cancellationToken = default)
-    //{
-    //  return await _dbContext.Set<T>().ToListAsync(cancellationToken);
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual async Task<List<T>> ListAsync(ISpecification<T> specification, CancellationToken cancellationToken = default)
-    //{
-    //  var queryResult = await ApplySpecification(specification).ToListAsync(cancellationToken);
-
-    //  return specification.PostProcessingAction == null ? queryResult : specification.PostProcessingAction(queryResult).ToList();
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual async Task<List<TResult>> ListAsync<TResult>(ISpecification<T, TResult> specification, CancellationToken cancellationToken = default)
-    //{
-    //  var queryResult = await ApplySpecification(specification).ToListAsync(cancellationToken);
-
-    //  return specification.PostProcessingAction == null ? queryResult : specification.PostProcessingAction(queryResult).ToList();
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual async Task<int> CountAsync(ISpecification<T> specification, CancellationToken cancellationToken = default)
-    //{
-    //  return await ApplySpecification(specification, true).CountAsync(cancellationToken);
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual async Task<int> CountAsync(CancellationToken cancellationToken = default)
-    //{
-    //  return await _dbContext.Set<T>().CountAsync(cancellationToken);
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual async Task<bool> AnyAsync(ISpecification<T> specification, CancellationToken cancellationToken = default)
-    //{
-    //  return await ApplySpecification(specification, true).AnyAsync(cancellationToken);
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual async Task<bool> AnyAsync(CancellationToken cancellationToken = default)
-    //{
-    //  return await _dbContext.Set<T>().AnyAsync(cancellationToken);
-    //}
-
-    ///// <inheritdoc/>
-    //public virtual IAsyncEnumerable<T> AsAsyncEnumerable(ISpecification<T> specification)
-    //{
-    //  return ApplySpecification(specification).AsAsyncEnumerable();
-    //}
+   
+    public virtual async Task<List<T>> ListAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<T>().ToListAsync(cancellationToken);
+    }
+   
+    public virtual async Task<int> CountAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<T>().CountAsync(cancellationToken);
+    }
 
     ///// <summary>
     ///// Filters the entities  of <typeparamref name="T"/>, to those that match the encapsulated query logic of the

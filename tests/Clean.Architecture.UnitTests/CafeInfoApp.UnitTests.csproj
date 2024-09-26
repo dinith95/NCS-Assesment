@@ -37,8 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Clean.Architecture.Core\Clean.Architecture.Core.csproj" />
-    <ProjectReference Include="..\..\src\Clean.Architecture.UseCases\Clean.Architecture.UseCases.csproj" />
+    <ProjectReference Include="..\..\src\Clean.Architecture.Core\CafeInfoApp.Core.csproj" />
+    <ProjectReference Include="..\..\src\Clean.Architecture.UseCases\CafeInfoApp.UseCases.csproj" />
   </ItemGroup>
 
 </Project>

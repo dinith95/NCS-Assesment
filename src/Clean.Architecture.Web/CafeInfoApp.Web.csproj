@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Clean.Architecture.Infrastructure\Clean.Architecture.Infrastructure.csproj" />
-    <ProjectReference Include="..\Clean.Architecture.UseCases\Clean.Architecture.UseCases.csproj" />
+    <ProjectReference Include="..\Clean.Architecture.Infrastructure\CafeInfoApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\Clean.Architecture.UseCases\CafeInfoApp.UseCases.csproj" />
   </ItemGroup>
 
 </Project>
