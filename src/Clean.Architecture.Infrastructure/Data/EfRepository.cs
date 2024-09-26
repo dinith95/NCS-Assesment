@@ -1,16 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CafeInfoApp.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clean.Architecture.Infrastructure.Data;
-
-internal interface IRepository<T> where T : class
-{
-    Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
-    Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
-    Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
-    Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
-    Task UpdateAsync(T entity, CancellationToken cancellationToken = default);
-    Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
-}
 
 public class EfRepository<T>(AppDbContext dbContext) :
   RepositoryBase<T>(dbContext), IRepository<T> where T : class
