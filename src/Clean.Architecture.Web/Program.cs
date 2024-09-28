@@ -3,7 +3,6 @@ using Ardalis.ListStartupServices;
 using CafeInfoApp.UseCases.Employees.AddEmployee;
 using Clean.Architecture.Core.ContributorAggregate;
 using Clean.Architecture.Infrastructure;
-using Clean.Architecture.UseCases.Contributors.Create;
 using FastEndpoints;
 
 using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
@@ -17,7 +16,6 @@ ConfigureMediatR();
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-
 builder.Services.AddInfrastructureServices(builder.Configuration, logger);
 
 
@@ -26,17 +24,17 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-  app.UseDeveloperExceptionPage();
-  app.UseShowAllServicesMiddleware(); // see https://github.com/ardalis/AspNetCoreStartupServices
+    app.UseDeveloperExceptionPage();
+    app.UseShowAllServicesMiddleware(); // see https://github.com/ardalis/AspNetCoreStartupServices
 }
 else
 {
-  app.UseDefaultExceptionHandler(); // from FastEndpoints
-  app.UseHsts();
+    app.UseDefaultExceptionHandler(); // from FastEndpoints
+    app.UseHsts();
 }
 
 app.MapDefaultControllerRoute();
-    
+
 
 app.UseHttpsRedirection();
 
@@ -50,14 +48,14 @@ app.Run();
 
 void ConfigureMediatR()
 {
-  var mediatRAssemblies = new[]
-{
-  Assembly.GetAssembly(typeof(Contributor)), // Core
-  Assembly.GetAssembly(typeof(CreateContributorCommand)) // UseCases
-};
-  builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(mediatRAssemblies!));
-  //builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-  //builder.Services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
+    var mediatRAssemblies = new[]
+    {
+        Assembly.GetAssembly(typeof(Contributor)),
+        Assembly.GetAssembly(typeof(AddEmployeeCommand)),
+    };
+    builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(mediatRAssemblies!));
+    //builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+    //builder.Services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>();
 }
 
 
