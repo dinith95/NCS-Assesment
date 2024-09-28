@@ -4,7 +4,6 @@ using Clean.Architecture.Core.ContributorAggregate;
 using Clean.Architecture.Infrastructure;
 using Clean.Architecture.UseCases.Contributors.Create;
 using FastEndpoints;
-using FastEndpoints.Swagger;
 
 using ILoggerFactory factory = LoggerFactory.Create(builder => builder.AddConsole());
 ILogger logger = factory.CreateLogger("Program");
@@ -13,13 +12,9 @@ logger.LogInformation("Starting web host");
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddFastEndpoints()
-                .SwaggerDocument(o =>
-                {
-                  o.ShortSchemaNames = true;
-                });
-
 ConfigureMediatR();
+builder.Services.AddControllers();
+
 
 builder.Services.AddInfrastructureServices(builder.Configuration, logger);
 
@@ -38,10 +33,16 @@ else
   app.UseHsts();
 }
 
-app.UseFastEndpoints()
-    .UseSwaggerGen(); // Includes AddFileServer and static files middleware
+app.MapDefaultControllerRoute();
+    
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.Run();
 
