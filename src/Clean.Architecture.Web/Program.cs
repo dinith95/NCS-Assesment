@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Ardalis.ListStartupServices;
+using CafeInfoApp.UseCases.Employees.AddEmployee;
 using Clean.Architecture.Core.ContributorAggregate;
 using Clean.Architecture.Infrastructure;
 using Clean.Architecture.UseCases.Contributors.Create;
@@ -14,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 ConfigureMediatR();
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 builder.Services.AddInfrastructureServices(builder.Configuration, logger);
