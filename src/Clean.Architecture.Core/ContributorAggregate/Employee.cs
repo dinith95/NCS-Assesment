@@ -9,7 +9,6 @@ public class Employee
 
     public string PhoneNumber { get; set; }
     public string Gender { get; set; }
-    public int Age { get; set; }
 
     public Employee(string id, string name, string emailAddress, string phoneNumber, string gender)
     {
