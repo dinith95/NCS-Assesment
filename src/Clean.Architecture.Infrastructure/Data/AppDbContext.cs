@@ -1,6 +1,5 @@
 ﻿using CafeInfoApp.Core.ContributorAggregate;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Clean.Architecture.Infrastructure.Data;
 public class AppDbContext : DbContext
